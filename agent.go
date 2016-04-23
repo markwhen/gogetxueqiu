@@ -76,11 +76,20 @@ func httpRequest(method string, urlStr string, postBody io.ReadCloser) (int, str
 	// ungzip or not
 	var body []byte
 	if res.Header.Get("Content-Encoding") == "gzip" {
-		gzipReader, _ := gzip.NewReader(res.Body)
+		gzipReader, err := gzip.NewReader(res.Body)
 		defer gzipReader.Close()
-		body, _ = ioutil.ReadAll(gzipReader)
+		if err != nil {
+			return -1, "", err
+		}
+		body, err = ioutil.ReadAll(gzipReader)
+		if err != nil {
+			return -1, "", err
+		}
 	} else {
-		body, _ = ioutil.ReadAll(res.Body)
+		body, err = ioutil.ReadAll(res.Body)
+		if err != nil {
+			return -1, "", err
+		}
 	}
 	return res.StatusCode, (string(body)), nil
 }
