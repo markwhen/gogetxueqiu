@@ -65,6 +65,7 @@ func httpRequest(method string, urlStr string, postBody io.ReadCloser) (int, str
 	if postBody != nil {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 	}
+	// begin ..
 	res, err := client.Do(req)
 	defer res.Body.Close()
 	if err != nil {
@@ -73,7 +74,7 @@ func httpRequest(method string, urlStr string, postBody io.ReadCloser) (int, str
 		}
 		return -1, "", err
 	}
-	// ungzip or not
+	// ungzip or not, and read to body
 	var body []byte
 	if res.Header.Get("Content-Encoding") == "gzip" {
 		gzipReader, err := gzip.NewReader(res.Body)
