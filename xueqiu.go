@@ -1,16 +1,25 @@
-package main
+package gogetxueqiu
 
 import (
 	"errors"
 	"log"
-	"strconv"
+	//"strconv"
 )
 
 // XueqiuUrls : xueqiu urls map
 var XueqiuUrls = map[string]string{
 	"csrf":       "https://xueqiu.com/service/csrf",
 	"login":      "https://xueqiu.com/user/login",
-	"stock_curr": "https://xueqiu.com/v4/stock/quote.json",
+	"stock_rt":   "https://xueqiu.com/v4/stock/quote.json",				//code
+	"stock_list": "https://xueqiu.com/stock/forchartk/stocklist.json",	//symbol, period, type, begin, end
+}
+
+type stockListParams struct {
+	symbol string
+	period string
+	fuquanType string
+	begin uint64
+	end uint64
 }
 
 // XueqiuAccounts : xueqiu accounts
@@ -44,18 +53,4 @@ func Login() (string, error) {
 		}
 	}
 	return "", errors.New("Login Failed")
-}
-
-//StockCurr : get stock current status
-func StockCurr(stockStr string) (string, error) {
-	code, res, err := HTTPGet(XueqiuUrls["stock_curr"], map[string]string{
-		"code": stockStr,
-	})
-	if err != nil {
-		log.Println("error when get ", XueqiuUrls["stock_curr"])
-	}
-	if code != 200 {
-		return "", errors.New("code:" + strconv.Itoa(code))
-	}
-	return res, err
 }

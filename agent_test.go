@@ -1,21 +1,22 @@
-package main
+package gogetxueqiu
 
 import (
 	"fmt"
+	"testing"
 )
 
 var debugLogging = false
 var infoLogging = true
 
-func main() {
+func TestALL(t *testing.T) {
 	_, err := Login()
 	if err != nil {
 		panic("login failed")
 	}
 
-	content, err := StockCurr("SZ000625")
+	stockrt, err := GetStockRT("SZ000625")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(content)
+	fmt.Println(*stockrt)
 }
