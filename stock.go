@@ -96,8 +96,8 @@ func GetStockPriceListHS(reqParams stockListParams) (*StockPriceListHS, error) {
         "symbol": reqParams.symbol,
         "period": reqParams.period,
         "type": reqParams.fuquanType,
-        "begin": strconv.FormatUint(reqParams.begin, 10),
-        "end": strconv.FormatUint(reqParams.end, 10),
+        "begin": strconv.FormatInt(reqParams.begin, 10),
+        "end": strconv.FormatInt(reqParams.end, 10),
     })
 	if err != nil {
 		return nil, err
@@ -114,7 +114,8 @@ func GetStockPriceListHS(reqParams stockListParams) (*StockPriceListHS, error) {
     return stockPLHS, nil
 }
 
-// fromMap : get StockRT data from json.Map()
+// fromMap : 
+// get StockRT data from json.Map(), becuase xueqiu don't give a standard format, so parse it by reflection
 func (stockrt *StockRT) fromMap(mp map[string]interface{}) error {
     for k,v := range stringNameMap {
         if mp[v] == nil {

@@ -16,7 +16,6 @@ import (
 )
 
 var debugLogging = true
-var infoLogging = true
 
 var myCookieJar *cookiejar.Jar
 

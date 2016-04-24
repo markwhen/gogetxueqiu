@@ -18,8 +18,8 @@ type stockListParams struct {
 	symbol string
 	period string
 	fuquanType string
-	begin uint64
-	end uint64
+	begin int64
+	end int64
 }
 
 // XueqiuAccounts : xueqiu accounts
