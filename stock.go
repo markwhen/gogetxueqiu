@@ -20,11 +20,11 @@ var uint64NameMap = map[string]string {
 var float32NameMap = map[string]string {
     "Current":"current", "Percentage":"percentage", "Change":"change", "Open":"open", "Close":"close",
     "LastClose": "last_close", "High":"high", "Low":"low", "MarketCapital":"marketCapital",
-    "RiseStop":"rise_stop", "FallStop":"fall_stop", "Volume":"volume", "PELYR":"pe_lyr", "PETTM":"pe_ttm",
-    "EPS":"eps", "PSR":"psr", "PB":"pb", "Divident":"dividend",
+    "RiseStop":"rise_stop", "FallStop":"fall_stop", "PELYR":"pe_lyr", "PETTM":"pe_ttm",
+    "EPS":"eps", "PSR":"psr", "PB":"pb", "Divident":"dividend", "Volume":"volume",
 }
 
-// StockBasic :
+// StockBasic : basic info from real time info
 type StockBasic struct {
     Symbol          string  `json:"symbol"`
     Exchange        string  `json:"exchange"`
@@ -35,7 +35,7 @@ type StockBasic struct {
     UpdateBasicAt   uint64  `json:"updateAt"`
 }
 
-// StockPriceRT :
+// StockPriceRT : real time price for now
 type StockPriceRT struct {
     Current         float32  `json:"current"`
     Percentage      float32  `json:"percentage"`
@@ -64,9 +64,9 @@ type StockRT struct {
     StockPriceRT
 }
 
-// StockPriceHS : Stock Price in HiStory
+// StockPriceHS : Stock Price(K) in HiStory
 type StockPriceHS struct {
-    Volume      float32  `json:"volume"`
+    Volume      uint64   `json:"volume"`
     Turnrate    float32  `json:"turnrate"`
     Open        float32  `json:"open"`
     Close       float32  `json:"close"`
@@ -84,20 +84,33 @@ type StockPriceHS struct {
     Time        string   `json:"time"`
 }
 
-// StockPriceListHS :
+// StockPriceListHS : contains K price list
 type StockPriceListHS struct {
     Success     string    `json:"success"`
     PriceListHS []StockPriceHS  `json:"chartlist"`
 }
 
-//GetStockPriceListHS : get stock price list in history
-func GetStockPriceListHS(reqParams stockListParams) (*StockPriceListHS, error) {
-	code, res, err := HTTPGetBytes(XueqiuUrls["stock_list"], map[string]string{
+// StockPriceMin : Stock Price(minutes in recent day) in HiStory
+type StockPriceMin struct {
+    Volume   uint64 `json:"volume"`
+    AvgPrice float32 `json:"avg_price"`
+    Current  float32 `json:"current"`
+    Time     string  `json:"time"`
+}
+// StockPriceMins : contains the minute price list
+type StockPriceMins struct {
+    Success       string    `json:"success"`
+    PriceListMins []StockPriceMin  `json:"chartlist"`
+}
+
+//GetStockPriceListHS : get stock price(K) list in history
+func GetStockPriceListHS(reqParams stockKListParams) (*StockPriceListHS, error) {
+	code, res, err := HTTPGetBytes(XueqiuUrls["stock_k_list"], map[string]string{
         "symbol": reqParams.symbol,
         "period": reqParams.period,
         "type": reqParams.fuquanType,
-        "begin": strconv.FormatInt(reqParams.begin, 10),
-        "end": strconv.FormatInt(reqParams.end, 10),
+        "begin": strconv.FormatInt(reqParams.begin.Unix() * 1000, 10),
+        "end": strconv.FormatInt(reqParams.end.Unix() * 1000, 10),
     })
 	if err != nil {
 		return nil, err
@@ -112,6 +125,29 @@ func GetStockPriceListHS(reqParams stockListParams) (*StockPriceListHS, error) {
         return nil, err
     }
     return stockPLHS, nil
+}
+
+
+//GetStockPriceMinutes : get stock price minutes list in a day
+func GetStockPriceMinutes(reqParams stockMinutesParams) (*StockPriceMins, error) {
+	code, res, err := HTTPGetBytes(XueqiuUrls["stock_minutes"], map[string]string{
+        "symbol": reqParams.symbol,
+        "period": reqParams.period,
+        "one_min": strconv.FormatInt(int64(reqParams.onemin),10),
+    })
+	if err != nil {
+		return nil, err
+	}
+	if code != 200 {
+		return nil, errors.New("code:" + strconv.Itoa(code))
+	}
+    stockPMins := new(StockPriceMins)
+    err = json.Unmarshal(res, stockPMins)
+    if err != nil {
+        fmt.Println("GetStockPriceMinutes err:", err)
+        return nil, err
+    }
+    return stockPMins, nil
 }
 
 // fromMap : 

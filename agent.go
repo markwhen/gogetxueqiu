@@ -15,7 +15,7 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
-var debugLogging = true
+var debugLogging = false
 
 var myCookieJar *cookiejar.Jar
 
