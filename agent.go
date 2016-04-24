@@ -15,6 +15,9 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
+var debugLogging = true
+var infoLogging = true
+
 var myCookieJar *cookiejar.Jar
 
 func getRequestUrl(urlBase string, params map[string]string) string {
@@ -35,10 +38,16 @@ func HTTPGet(urlBase string, params map[string]string) (int, string, error) {
 	return httpRequest("GET", url, nil)
 }
 
+// HTTPGetBytes : request using GET method, will encode the get params into url
+func HTTPGetBytes(urlBase string, params map[string]string) (int, []byte, error) {
+	url := getRequestUrl(urlBase, params)
+	return httpRequestBytes("GET", url, nil)
+}
+
 // HTTPGetJSON : request using GET method, will encode the get params into url
 func HTTPGetJSON(urlBase string, params map[string]string) (int, *simplejson.Json, error) {
 	url := getRequestUrl(urlBase, params)
-	code, jsonBytes, err := httpRequestByte("GET", url, nil)
+	code, jsonBytes, err := httpRequestBytes("GET", url, nil)
 	if code != 200 {
 		return -1, nil, errors.New("return code: " + strconv.Itoa(code))
 	}
@@ -63,14 +72,14 @@ func HTTPPost(urlBase string, params map[string]string) (int, string, error) {
 
 // httpRequest : default charset UTF-8
 func httpRequest(method string, urlStr string, postBody io.ReadCloser) (int, string, error) {
-	code, body, err := httpRequestByte(method, urlStr, postBody)
+	code, body, err := httpRequestBytes(method, urlStr, postBody)
 	if err != nil {
 		return -1, "", err
 	}
 	return code, string(body), nil
 }
 
-func httpRequestByte(method string, urlStr string, postBody io.ReadCloser) (int, []byte, error) {
+func httpRequestBytes(method string, urlStr string, postBody io.ReadCloser) (int, []byte, error) {
 	if myCookieJar == nil {
 		myCookieJar, _ = cookiejar.New(nil)
 	}

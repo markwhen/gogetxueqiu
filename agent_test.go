@@ -5,9 +5,6 @@ import (
 	"testing"
 )
 
-var debugLogging = false
-var infoLogging = true
-
 func TestALL(t *testing.T) {
 	_, err := Login()
 	if err != nil {
@@ -19,4 +16,14 @@ func TestALL(t *testing.T) {
 		fmt.Println(err)
 	}
 	fmt.Println(*stockrt)
+	
+	sLPParams := &stockListParams {
+		symbol:"SZ000625",
+		period:"1day",
+		fuquanType:"before",
+		begin:1423798115327,
+		end:1429798115327,
+	}
+	StockPriceListHS, err := GetStockPriceListHS(*sLPParams)
+	fmt.Println(*StockPriceListHS)
 }
