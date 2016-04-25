@@ -37,21 +37,30 @@ var XueqiuUrls = map[string]string{
 	"pf_recommend":	"https://xueqiu.com/cubes/discover/rank/cube/list.json?category=14",
 					//fixed catefory
 	"pf_rank_percent":"https://xueqiu.com/cubes/data/rank_percent.json",
-					//cube_id(unknown), market(cn), dimension(annual)
+					//cube_id(\unknown), market(cn), dimension(annual)
+	"pf_rebalance": "https://xueqiu.com/cubes/rebalancing/history.json",
+					// ...
+	"":"",
 }
 
-type stockKListParams struct {
-	symbol string
-	period string
-	fuquanType string
-	begin time.Time
-	end time.Time
+type StockKListParams struct {
+	Symbol string
+	Period string
+	FuquanType string
+	Begin time.Time
+	End time.Time
 }
 
-type stockMinutesParams struct {
-	symbol string
-	period string
-	onemin int
+type StockMinutesParams struct {
+	Symbol string
+	Period string
+	OneMin int
+}
+
+type PfValuesParams struct {
+	CubeSymbol string
+	Since time.Time
+	Until time.Time
 }
 
 // GetMd5HexStr : calculate MD5

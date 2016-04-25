@@ -104,13 +104,13 @@ type StockPriceMins struct {
 }
 
 //GetStockPriceListHS : get stock price(K) list in history
-func GetStockPriceListHS(reqParams stockKListParams) (*StockPriceListHS, error) {
+func GetStockPriceListHS(reqParams StockKListParams) (*StockPriceListHS, error) {
 	code, res, err := HTTPGetBytes(XueqiuUrls["stock_k_list"], map[string]string{
-        "symbol": reqParams.symbol,
-        "period": reqParams.period,
-        "type": reqParams.fuquanType,
-        "begin": strconv.FormatInt(reqParams.begin.Unix() * 1000, 10),
-        "end": strconv.FormatInt(reqParams.end.Unix() * 1000, 10),
+        "symbol": reqParams.Symbol,
+        "period": reqParams.Period,
+        "type": reqParams.FuquanType,
+        "begin": strconv.FormatInt(reqParams.Begin.Unix() * 1000, 10),
+        "end": strconv.FormatInt(reqParams.End.Unix() * 1000, 10),
     })
 	if err != nil {
 		return nil, err
@@ -129,11 +129,11 @@ func GetStockPriceListHS(reqParams stockKListParams) (*StockPriceListHS, error) 
 
 
 //GetStockPriceMinutes : get stock price minutes list in a day
-func GetStockPriceMinutes(reqParams stockMinutesParams) (*StockPriceMins, error) {
+func GetStockPriceMinutes(reqParams StockMinutesParams) (*StockPriceMins, error) {
 	code, res, err := HTTPGetBytes(XueqiuUrls["stock_minutes"], map[string]string{
-        "symbol": reqParams.symbol,
-        "period": reqParams.period,
-        "one_min": strconv.FormatInt(int64(reqParams.onemin),10),
+        "symbol": reqParams.Symbol,
+        "period": reqParams.Period,
+        "one_min": strconv.FormatInt(int64(reqParams.OneMin),10),
     })
 	if err != nil {
 		return nil, err

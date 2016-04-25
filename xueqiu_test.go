@@ -26,24 +26,31 @@ func TestALL(t *testing.T) {
 	// stock K list
 	te := time.Now()
 	tb := te.AddDate(0,-1,0)
-	sKLPParams := &stockKListParams {
-		symbol:"SZ000625",
-		period:"1day",
-		fuquanType:"before",
-		begin:tb,
-		end:te,
+	sKLPParams := &StockKListParams {
+		Symbol:"SZ000625",
+		Period:"1day",
+		FuquanType:"before",
+		Begin:tb,
+		End:te,
 	}
 	stockKPriceListHS, err := GetStockPriceListHS(*sKLPParams)
-	fmt.Println("stockKListParams",*sKLPParams)
 	fmt.Println("GetStockPriceListHS for 1 month:",stockKPriceListHS.Success,len(stockKPriceListHS.PriceListHS))
 	
 	// stock minutes list
-	sMinsParams := &stockMinutesParams {
-		symbol:"SZ000625",
-		period:"1d",
-		onemin:1,
+	sMinsParams := &StockMinutesParams {
+		Symbol:"SZ000625",
+		Period:"1d",
+		OneMin:1,
 	}
 	stockPriceMins, err := GetStockPriceMinutes(*sMinsParams)
-	fmt.Println("stockMinutesParams", *sMinsParams)
 	fmt.Println("GetStockPriceMinutes for 1 day:",stockPriceMins.Success, len(stockPriceMins.PriceListMins))
+	
+	// portfolio value list
+	pValuesParams := &PfValuesParams {
+		CubeSymbol:"ZH024581",
+		Since:tb,
+		Until:te,
+	}
+	pfValuesListHS, err := GetPfValueListHS(*pValuesParams)
+	fmt.Println("GetPfValueListHS for 1 month:",pfValuesListHS.Name, len(pfValuesListHS.ListHS))
 }
