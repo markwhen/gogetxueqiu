@@ -1,12 +1,22 @@
 # GoGetXueQiu
 
-A gogetxueqiu package for getting stocks and portfolios info from xueqiu.com, in Golang (Go)
+A gogetxueqiu package for getting stocks and portfolios info from xueqiu.com, in Golang (Go).
+
+本项目是用 Golang 实现的一个针对雪球的爬虫系统，模拟普通用户登录，并从雪球的 json API 获取信息。
 
 ### 依赖第三方包
 
 go get "github.com/bitly/go-simplejson"
 
-使用方法：请参考 agent_test.go 文件
+### 使用方法
+
+go get "github.com/ynsfsmj/gogetxueqiu"
+
+API 请参考 agent_test.go 文件：
+
+git clone https://github.com/ynsfsmj/gogetxueqiu
+
+go test
 
 ### 开发完成情况
 
@@ -32,16 +42,13 @@ go get "github.com/bitly/go-simplejson"
 
 在模拟用户登录后，可以访问的信息如下所示：（包括但不限）
 
-雪球数据接口整理：
-
-雪球组合
-wget --user-agent="Mozilla/5.0" "https://xueqiu.com/P/ZH024581"
+* 雪球组合
 
 雪球组合净值变化（按天）
 https://xueqiu.com/cubes/nav_daily/all.json?cube_symbol=ZH024581&since=1453555757000&until=1461331757000
 
-雪球组合当日调仓变化
-https://xueqiu.com/stock/quotep.json?stockid=1023524%2C1001291
+组合调仓记录
+https://xueqiu.com/cubes/rebalancing/history.json?cube_symbol=ZH024581&count=20&page=1
 
 雪球当日热门组合列表
 https://xueqiu.com/cubes/discover/rank/cube/list.json?category=14
@@ -50,13 +57,12 @@ https://xueqiu.com/cubes/discover/rank/cube/list.json?category=14
 https://xueqiu.com/cubes/data/rank_percent.json?cube_id=24482&market=cn&dimension=annual
 
 雪球组合评分
-/cubes/rank/summary.json?symbol=ZH024581&ua=web
+https://xueqiu.com/cubes/rank/summary.json?symbol=ZH024581&ua=web
 
 雪球组合管理者时间线
-/cube/timeline?symbol=ZH024581&page=1&count=20&comment=0&uid=9188557237
+https://xueqiu.com/cube/timeline?symbol=ZH024581&page=1&count=20&comment=0&uid=9188557237
 
-雪球股票
-wget --user-agent="Mozilla/5.0" "https://xueqiu.com/S/SZ000625"
+* 雪球股票
 
 雪球股票当前状态和价格
 https://xueqiu.com/v4/stock/quote.json?code=SZ000625
@@ -65,7 +71,11 @@ https://xueqiu.com/v4/stock/quote.json?code=SZ000625
 https://xueqiu.com/stock/pankou.json?symbol=SZ000625
 
 雪球股票当日分时图
-/stock/forchart/stocklist.json?symbol=SZ000625&period=1d&one_min=1
+https://xueqiu.com/stock/forchart/stocklist.json?symbol=SZ000625&period=1d&one_min=1
 
 雪球股票后复权日线图
-https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SZ000625&period=1day&type=after&begin=1429798115327&end=1461334115327&_=1461334115327
+https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SZ000625&period=1day&type=before&begin=1429798115327&end=1461334115327
+
+雪球多只股票当前价格，stockid 未知
+https://xueqiu.com/stock/quotep.json?stockid=1023524%2C1001291
+
