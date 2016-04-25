@@ -12,7 +12,7 @@ go get "github.com/bitly/go-simplejson"
 
 go get "github.com/ynsfsmj/gogetxueqiu"
 
-API 请参考 agent_test.go 文件：
+API 请参考 xueqiu_test.go 文件：
 
 git clone https://github.com/ynsfsmj/gogetxueqiu
 
@@ -24,7 +24,7 @@ go test
 
 初步实现了请求 API 的 Demo
 
-增加了单元测试文件 agent_test.go，本package具体使用方法也请见此文件
+增加了单元测试文件 xueqiu_test.go，本package具体使用方法也请见此文件
 
 接下来：
 
@@ -75,7 +75,4 @@ https://xueqiu.com/stock/forchart/stocklist.json?symbol=SZ000625&period=1d&one_m
 
 雪球股票后复权日线图
 https://xueqiu.com/stock/forchartk/stocklist.json?symbol=SZ000625&period=1day&type=before&begin=1429798115327&end=1461334115327
-
-雪球多只股票当前价格，stockid 未知
-https://xueqiu.com/stock/quotep.json?stockid=1023524%2C1001291
 
