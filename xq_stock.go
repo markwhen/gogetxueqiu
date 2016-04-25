@@ -24,7 +24,7 @@ var float32NameMap = map[string]string {
     "EPS":"eps", "PSR":"psr", "PB":"pb", "Divident":"dividend", "Volume":"volume",
 }
 
-// StockBasic : basic info from real time info
+// StockBasic : basic info from real time info, all for indexes like SH000300
 type StockBasic struct {
     Symbol          string  `json:"symbol"`
     Exchange        string  `json:"exchange"`

@@ -32,17 +32,19 @@ var XueqiuUrls = map[string]string{
 					//stockid
 
 	// portfolio
-	"pf_daily":		"https://xueqiu.com/cubes/nav_daily/all.json",
-					//cube_symbol, since, until (timestamp micsec)
-	"pf_recommend":	"https://xueqiu.com/cubes/discover/rank/cube/list.json?category=14",
-					//fixed catefory
+	"pf_daily":		  "https://xueqiu.com/cubes/nav_daily/all.json",
+					  //cube_symbol, since, until (timestamp micsec)
+	"pf_recommend":	  "https://xueqiu.com/cubes/discover/rank/cube/list.json?category=14",
+					  //fixed catefory
 	"pf_rank_percent":"https://xueqiu.com/cubes/data/rank_percent.json",
-					//cube_id(\unknown), market(cn), dimension(annual)
-	"pf_rebalance": "https://xueqiu.com/cubes/rebalancing/history.json",
-					// ...
-	"":"",
+					  //cube_id, market(cn), dimension(annual)
+	"pf_rebalance":   "https://xueqiu.com/cubes/rebalancing/history.json",
+					  //cube_symbol, page, count, since, until
+	"pf_scores":      "https://xueqiu.com/cubes/rank/summary.json",
+					  //symbol, ua(app)
 }
 
+// StockKListParams :
 type StockKListParams struct {
 	Symbol string
 	Period string
@@ -51,16 +53,25 @@ type StockKListParams struct {
 	End time.Time
 }
 
+// StockMinutesParams :
 type StockMinutesParams struct {
 	Symbol string
 	Period string
 	OneMin int
 }
 
+// PfValuesParams :
 type PfValuesParams struct {
 	CubeSymbol string
 	Since time.Time
 	Until time.Time
+}
+
+// PfRebalanceParams :
+type PfRebalanceParams struct {
+	CubeSymbol string
+	Count int64	// count <= 50
+	Page  int64	// from 1 to 20
 }
 
 // GetMd5HexStr : calculate MD5

@@ -16,16 +16,18 @@ func TestALL(t *testing.T) {
 		panic("login failed")
 	}
 
-	// stock real time
+	// stock real time info
 	stockrt, err := GetStockRT("SZ000625")
 	if err != nil {
 		fmt.Println(err)
+	} else {
+		fmt.Println("GetStockRT",*stockrt)
 	}
-	fmt.Println("GetStockRT",*stockrt)
+	
+	te := time.Now()
+	tb := te.AddDate(0,-1,0) // a month ago
 	
 	// stock K list
-	te := time.Now()
-	tb := te.AddDate(0,-1,0)
 	sKLPParams := &StockKListParams {
 		Symbol:"SZ000625",
 		Period:"1day",
@@ -34,16 +36,24 @@ func TestALL(t *testing.T) {
 		End:te,
 	}
 	stockKPriceListHS, err := GetStockPriceListHS(*sKLPParams)
-	fmt.Println("GetStockPriceListHS for 1 month:",stockKPriceListHS.Success,len(stockKPriceListHS.PriceListHS))
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("GetStockPriceListHS for 1 month:",stockKPriceListHS.Success,len(stockKPriceListHS.PriceListHS))
+	}
 	
-	// stock minutes list
+	// stock minutes list in the recent day
 	sMinsParams := &StockMinutesParams {
 		Symbol:"SZ000625",
 		Period:"1d",
 		OneMin:1,
 	}
 	stockPriceMins, err := GetStockPriceMinutes(*sMinsParams)
-	fmt.Println("GetStockPriceMinutes for 1 day:",stockPriceMins.Success, len(stockPriceMins.PriceListMins))
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("GetStockPriceMinutes for 1 day:",stockPriceMins.Success, len(stockPriceMins.PriceListMins)) // max 242
+	}
 	
 	// portfolio value list
 	pValuesParams := &PfValuesParams {
@@ -52,5 +62,30 @@ func TestALL(t *testing.T) {
 		Until:te,
 	}
 	pfValuesListHS, err := GetPfValueListHS(*pValuesParams)
-	fmt.Println("GetPfValueListHS for 1 month:",pfValuesListHS.Name, len(pfValuesListHS.ListHS))
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("GetPfValueListHS for 1 month:",pfValuesListHS.Name, len(pfValuesListHS.ListHS))
+	}
+	
+	// portfolio rebalancing list
+	pRebalanceParams := &PfRebalanceParams {
+		CubeSymbol:"ZH024581",
+		Count:50,
+		Page: 1,
+	}
+	pRebalanceListPage, err := GetPfRebalanceListPage(*pRebalanceParams)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("GetPfRebalanceListPage:", pRebalanceListPage.Count, len(pRebalanceListPage.PageList))
+	}
+	
+	// portfolio basic information
+	pBasic, err := GetPfBasic("ZH024581")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("GetPfBasic:", pBasic.Name, pBasic.ID)
+	}
 }
