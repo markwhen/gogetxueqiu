@@ -6,25 +6,19 @@ A gogetxueqiu package for getting stocks and portfolios info from xueqiu.com, in
 
 ### 依赖第三方包
 
-go get "github.com/bitly/go-simplejson"
+"github.com/bitly/go-simplejson"
 
 ### 使用方法
 
 go get "github.com/ynsfsmj/gogetxueqiu"
 
-API 请参考 xueqiu_test.go 文件：
-
-git clone https://github.com/ynsfsmj/gogetxueqiu
-
-go test
+API 用法请参考 examples/ 文件：
 
 ### 开发完成情况
 
 实现了模拟用户登录（解决 CSRF 保护等问题）
 
 初步实现了请求 API 的 Demo
-
-增加了单元测试文件 xueqiu_test.go，本package具体使用方法也请见此文件
 
 接下来：
 
