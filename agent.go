@@ -106,13 +106,13 @@ func httpRequestBytes(method string, urlStr string, postBody io.ReadCloser) (int
 	}
 	// begin ..
 	res, err := client.Do(req)
-	defer res.Body.Close()
 	if err != nil {
 		if debugLogging {
 			log.Println("do request error")
 		}
 		return -1, nil, err
 	}
+	defer res.Body.Close()
 	// ungzip or not, and read to body
 	var body []byte
 	if res.Header.Get("Content-Encoding") == "gzip" {
