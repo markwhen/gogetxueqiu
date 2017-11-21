@@ -2,7 +2,7 @@
 
 A gogetxueqiu package for getting stocks and portfolios info from xueqiu.com, in Golang (Go).
 
-本项目是用 Golang 实现的一个针对雪球的爬虫系统，模拟普通用户登录，并从雪球的 json API 获取信息。
+本项目是用 Golang 实现的一个针对雪球的爬虫系统，模拟普通用户登录，并从雪球的 json API 获取信息。登录完成后，各接口函数支持 go 并发调用。
 
 ### 依赖第三方包
 
